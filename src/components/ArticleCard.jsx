@@ -1,5 +1,5 @@
 import "../App.css"
-function ArticleCard({ key, article }) {
+function ArticleCard({ article }) {
     
     return (
         <>
