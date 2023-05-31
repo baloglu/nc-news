@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import ArticleCard from "./ArticleCard"
+import Loading from "./Loading"
+
 import "../App.css"
 
 function ArticleContainer(props) {
@@ -44,7 +46,7 @@ function ArticleContainer(props) {
     )
     return (
         <>
-            {isLoading ? loading : content}
+            {isLoading ? <Loading /> : content}
             
         </>
     )
