@@ -21,17 +21,6 @@ function ArticleContainer(props) {
         })
     }, [])
     
-    const loading = (
-        <div className="loading-container">
-          <p className="loading-text">Loading</p>
-          <div className="loading-dots">
-            <span className="dot"></span>
-            <span className="dot"></span>
-            <span className="dot"></span>
-          </div>
-        </div>
-      )
-    
     const content = (
         <section className="article_container">
             {

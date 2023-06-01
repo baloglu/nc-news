@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 function ArticleCard({ article }) {
 
     return (
-            <article className="card_container">
+        <Link to={"/articles/"+article.article_id}  className="card_container"> 
+            <article>
                 <header>{article.title}</header>
-                <Link to={"/articles/"+article.article_id}> <img className="card_image" src={article.article_img_url} /> <br /></Link>
+                <img className="card_image" src={article.article_img_url} /> <br />
                
                 <div className="card_footer">
                     <p id="comment_count">{article.comment_count} comments</p>
@@ -15,6 +16,7 @@ function ArticleCard({ article }) {
                     <p> {article.votes} votes</p>
                     </div>
             </article>
+        </Link>
     )
 }
 

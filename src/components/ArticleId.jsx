@@ -1,6 +1,8 @@
 import "../App.css"
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { fetchArticle, fetchComments } from "../utils/api";
+
 import Loading from "./Loading";
 
 function ArticleId() {
@@ -11,30 +13,24 @@ function ArticleId() {
     const [isLoading, setIsLoading] = useState(false)
     const [isCommentsLoading, setIsCommentsLoading] = useState(false)
     useEffect(() => {
-        setIsLoading(true)
-        fetch(`https://news-backend-vnab.onrender.com/api/articles/${article_id}`)
-            .then(result => {
-             return result.json()
-            })
-            .then(({ article }) => {
-                console.log(article)
-                setArticle({ ...article })
-                setIsLoading(false)
-        })
-    }, [article_id])
-
-    useEffect(() => {
-        setIsCommentsLoading(true)
-        fetch(`https://news-backend-vnab.onrender.com/api/articles/${article_id}/comments`)
-            .then(result => {
-             return result.json()
-            })
-            .then(({ comments }) => {
-                console.log(comments)
-                setComments([...comments])
-                setIsCommentsLoading(false)
-        })
-    }, [article_id])
+        setIsLoading(true);
+        fetchArticle(article_id)
+          .then((article) => {
+            console.log(article);
+            setArticle({ ...article });
+            setIsLoading(false);
+          });
+      }, [article_id]);
+    
+      useEffect(() => {
+        setIsCommentsLoading(true);
+        fetchComments(article_id)
+          .then((comments) => {
+            console.log(comments);
+            setComments([...comments]);
+            setIsCommentsLoading(false);
+          });
+      }, [article_id]);
 
     const Comment = <section className="comments"> 
         { isCommentsLoading ? <Loading /> : <p>{comments.length}</p> }
