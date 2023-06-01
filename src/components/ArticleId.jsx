@@ -1,13 +1,15 @@
 import "../App.css"
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Loading from "./Loading";
 
 function ArticleId() {
 
     const { article_id } = useParams();
     const [article, setArticle] = useState({})
+    const [comments, setComments] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-
+    const [isCommentsLoading, setIsCommentsLoading] = useState(false)
     useEffect(() => {
         setIsLoading(true)
         fetch(`https://news-backend-vnab.onrender.com/api/articles/${article_id}`)
@@ -20,44 +22,57 @@ function ArticleId() {
                 setIsLoading(false)
         })
     }, [article_id])
+
+    useEffect(() => {
+        setIsCommentsLoading(true)
+        fetch(`https://news-backend-vnab.onrender.com/api/articles/${article_id}/comments`)
+            .then(result => {
+             return result.json()
+            })
+            .then(({ comments }) => {
+                console.log(comments)
+                setComments([...comments])
+                setIsCommentsLoading(false)
+        })
+    }, [article_id])
+
+    const Comment = <section className="comments"> 
+        { isCommentsLoading ? <Loading /> : <p>{comments.length}</p> }
+        
+    </section>
+
+    const Content = <article id="article_container">
+        <div id="article_title">
+            {article.title}
+        </div>
+        <div id="article_img_container">
+            <img id="article_img" src={article.article_img_url} />
+        </div>
+        <div id="article_body_container">
+            <p>{article.body} </p>
+        </div>
+        
+        <div id="article_created_at">
+            <p>{article.created_at} </p>
+        </div>
+        
+        <section className="votes_comment_container">
+        
+            <button className="article_votes">Votes:{article.votes} </button>
+
+            <div id="article_topic">
+            <p>{article.topic} </p>
+        </div>
+            
+            <button className="add_comment">
+                Add comment
+            </button>
+        </section>
+    </article>
+    
     return (
-        <article id="article_container">
-            <div id="article_title">
-                {article.title}
-            </div>
-            <div id="article_img_container">
-                <img id="article_img" src={article.article_img_url} />
-            </div>
-            <div id="article_body_container">
-                <p>{article.body} </p>
-            </div>
-        </article>
+        isLoading ? <Loading /> : Content  
     )
 }
-/* 
-article_id
-: 
-34
-article_img_url
-: 
-"https://images.pexels.com/photos/2403392/pexels-photo-2403392.jpeg?w=700&h=700"
-author
-: 
-"grumpy19"
-body
-: 
-"The 'umami' craze has turned a much-maligned and misunderstood food additive into an object of obsession for the world’s most innovative chefs. But secret ingredient monosodium glutamate’s biggest secret may be that there was never anything wrong with it at all."
-created_at
-: 
-"2020-11-22T11:13:00.000Z"
-title
-: 
-"The Notorious MSG’s Unlikely Formula For Success"
-topic
-: 
-"cooking"
-votes
-: 
-0
-*/
+
 export default ArticleId
