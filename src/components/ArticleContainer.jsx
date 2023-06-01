@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { fetchArticles } from "../utils/api";
 import ArticleCard from "./ArticleCard"
 import Loading from "./Loading"
 
@@ -11,14 +12,12 @@ function ArticleContainer(props) {
 
     useEffect(() => {
         setIsLoading(true)
-        fetch("https://news-backend-vnab.onrender.com/api/articles")
-            .then(result => {
-             return result.json()
-            })
-            .then(({articles}) => {
+        fetchArticles()
+            .then((articles) => {
                 setArticles(articles)
                 setIsLoading(false)
         })
+
     }, [])
     
     const content = (

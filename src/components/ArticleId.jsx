@@ -16,7 +16,6 @@ function ArticleId() {
         setIsLoading(true);
         fetchArticle(article_id)
           .then((article) => {
-            console.log(article);
             setArticle({ ...article });
             setIsLoading(false);
           });
@@ -26,14 +25,27 @@ function ArticleId() {
         setIsCommentsLoading(true);
         fetchComments(article_id)
           .then((comments) => {
-            console.log(comments);
-            setComments([...comments]);
+              console.log(comments);
+              const formattedComments = comments.map(comment => {
+                  const formattedDate = new Date(comment.created_at)
+                  return {...comment, formatted_date: formattedDate.toLocaleString("en-GB")}
+              })
+
+            setComments([...formattedComments]);
             setIsCommentsLoading(false);
           });
       }, [article_id]);
 
     const Comment = <section className="comments"> 
-        { isCommentsLoading ? <Loading /> : <p>{comments.length}</p> }
+        {isCommentsLoading ? <Loading /> : comments.map((comment) => {
+            return <div className="comment_row">
+                <p className="comment_body">{comment.body}</p>
+                <div className="comment_meta">
+                    <span className="comment_meta_item">{"Votes: "+comment.votes}</span>
+                    <span className="comment_meta_item">{comment.formatted_date}</span>
+                    <span className="comment_meta_item">{comment.author}</span></div>
+            </div>
+        })}
         
     </section>
 
@@ -61,6 +73,8 @@ function ArticleId() {
                 Add comment
             </button>
         </section>
+
+        {Comment}
     </article>
     
     return (
