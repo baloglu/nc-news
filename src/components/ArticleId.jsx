@@ -52,9 +52,6 @@ function ArticleId() {
             <p>{article.body} </p>
         </div>
         
-        <div id="article_created_at">
-            <p>{article.created_at} </p>
-        </div>
         
         <section className="votes_comment_container">
         
