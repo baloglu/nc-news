@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import ArticleCard from "./ArticleCard"
+import Loading from "./Loading"
+
 import "../App.css"
 
 function ArticleContainer(props) {
@@ -19,17 +21,6 @@ function ArticleContainer(props) {
         })
     }, [])
     
-    const loading = (
-        <div className="loading-container">
-          <p className="loading-text">Loading</p>
-          <div className="loading-dots">
-            <span className="dot"></span>
-            <span className="dot"></span>
-            <span className="dot"></span>
-          </div>
-        </div>
-      )
-    
     const content = (
         <section className="article_container">
             {
@@ -44,7 +35,7 @@ function ArticleContainer(props) {
     )
     return (
         <>
-            {isLoading ? loading : content}
+            {isLoading ? <Loading /> : content}
             
         </>
     )
