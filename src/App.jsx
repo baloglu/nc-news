@@ -1,7 +1,7 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Nav from "./components/Nav"
 import MainContainer from "./components/MainContainer"
-import ArticleId from "./components/ArticleId"
+import SingleArticle from "./components/SingleArticle"
 
 function App() {
 
@@ -10,7 +10,7 @@ function App() {
       <Nav />
       <Routes>
       <Route path="/" element={<MainContainer />} />
-        <Route path="/articles/:article_id" element={<ArticleId />} />
+        <Route path="/articles/:article_id" element={<SingleArticle />} />
       </Routes>
     </BrowserRouter>
   )
