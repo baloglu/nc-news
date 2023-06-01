@@ -12,6 +12,8 @@ function ArticleId() {
     const [comments, setComments] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [isCommentsLoading, setIsCommentsLoading] = useState(false)
+    const [vote, setVote] = useState(false)
+
     useEffect(() => {
         setIsLoading(true);
         fetchArticle(article_id)
@@ -25,7 +27,6 @@ function ArticleId() {
         setIsCommentsLoading(true);
         fetchComments(article_id)
           .then((comments) => {
-              console.log(comments);
               const formattedComments = comments.map(comment => {
                   const formattedDate = new Date(comment.created_at)
                   return {...comment, formatted_date: formattedDate.toLocaleString("en-GB")}
@@ -38,7 +39,7 @@ function ArticleId() {
 
     const Comment = <section className="comments"> 
         {isCommentsLoading ? <Loading /> : comments.map((comment) => {
-            return <div className="comment_row">
+            return <div className="comment_row" key={comment.comment_id}>
                 <p className="comment_body">{comment.body}</p>
                 <div className="comment_meta">
                     <span className="comment_meta_item">{"Votes: "+comment.votes}</span>
